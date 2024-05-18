@@ -4,7 +4,7 @@ from ttkbootstrap.constants import *
 app = ttkb.Window(title="My Application", themename="pulse")
 app.geometry("1700x900")
 
-# Create top bar
+# Create top bar-
 bar = ttkb.Frame(app, padding=10, bootstyle="primary")
 bar.place(width=1700, height=70)
 
@@ -66,6 +66,33 @@ def modals_page():
     demo_label.place(x=350, y=250, width=300, height=300)
 
 
+# Toggle menu function
+menu_expanded = True
+
+
+def toggle_menu():
+    global menu_expanded
+    if menu_expanded:
+        menu.place_forget()
+        menu.place(y=70, width=0, height=900)
+        toggle_button.configure(text="☰")
+        for i, (button, label) in enumerate(menu_buttons):
+            button.place_forget()
+            button.place(x=10, y=i * 100, width=40, height=100)
+            label.place_forget()
+            label.place(x=1, y=i * 100, width=5, height=100)
+    else:
+        menu.place_forget()
+        menu.place(y=70, width=250, height=900)
+        toggle_button.configure(text="X")
+        for i, (button, label) in enumerate(menu_buttons):
+            button.place_forget()
+            button.place(x=10, y=i * 100, width=250, height=100)
+            label.place_forget()
+            label.place(x=1, y=i * 100, width=5, height=100)
+    menu_expanded = not menu_expanded
+
+
 # Top bar elements
 logo = ttkb.Label(bar, text="Logo", bootstyle="inverse-primary")
 logo.place(width=250, height=50)
@@ -76,27 +103,37 @@ searchbox.place(x=900, width=250, height=50)
 userDropDown = ttkb.Label(bar, text="userDropDown", bootstyle="inverse-primary")
 userDropDown.place(x=1550, width=250, height=50)
 
+toggle_button = ttkb.Button(bar, text="X", bootstyle="primary", command=toggle_menu)
+toggle_button.place(x=0, width=50, height=50)
+
 # Menu elements with their corresponding buttons and active labels
 menu_buttons = [
-    ("Home", home_page, 0),
-    ("Tables", tables_page, 100),
-    ("Charts", charts_page, 200),
-    ("Forms", forms_page, 300),
-    ("Buttons", buttons_page, 400),
-    ("Modals", modals_page, 500)
+    (ttkb.Button(menu, text="Home", bootstyle="primary",
+                 command=lambda: change_active_label_and_page(active_labels["Home"], home_page)),
+     ttkb.Label(menu, text="", bootstyle="inverse-primary")),
+    (ttkb.Button(menu, text="Tables", bootstyle="primary",
+                 command=lambda: change_active_label_and_page(active_labels["Tables"], tables_page)),
+     ttkb.Label(menu, text="", bootstyle="inverse-primary")),
+    (ttkb.Button(menu, text="Charts", bootstyle="primary",
+                 command=lambda: change_active_label_and_page(active_labels["Charts"], charts_page)),
+     ttkb.Label(menu, text="", bootstyle="inverse-primary")),
+    (ttkb.Button(menu, text="Forms", bootstyle="primary",
+                 command=lambda: change_active_label_and_page(active_labels["Forms"], forms_page)),
+     ttkb.Label(menu, text="", bootstyle="inverse-primary")),
+    (ttkb.Button(menu, text="Buttons", bootstyle="primary",
+                 command=lambda: change_active_label_and_page(active_labels["Buttons"], buttons_page)),
+     ttkb.Label(menu, text="", bootstyle="inverse-primary")),
+    (ttkb.Button(menu, text="Modals", bootstyle="primary",
+                 command=lambda: change_active_label_and_page(active_labels["Modals"], modals_page)),
+     ttkb.Label(menu, text="", bootstyle="inverse-primary")),
 ]
 
-for text, page_function, y_pos in menu_buttons:
-    button = ttkb.Button(menu, text=text, bootstyle="primary",
-                         command=lambda pf=page_function, al=text: change_active_label_and_page(active_labels[al], pf))
-    button.place(x=10, y=y_pos, width=250, height=100)
-
-    active_label = ttkb.Label(menu, text="", bootstyle="inverse-primary")
-    active_label.place(x=1, y=y_pos, width=5, height=100)
-    active_labels[text] = active_label
+for i, (button, label) in enumerate(menu_buttons):
+    button.place(x=10, y=i * 100, width=250, height=100)
+    label.place(x=1, y=i * 100, width=5, height=100)
+    active_labels[button.cget("text")] = label
 
 # Initialize the first page
 change_active_label_and_page(active_labels["Home"], home_page)
-
 
 app.mainloop()
