@@ -98,4 +98,5 @@ for text, page_function, y_pos in menu_buttons:
 # Initialize the first page
 change_active_label_and_page(active_labels["Home"], home_page)
 
+
 app.mainloop()
