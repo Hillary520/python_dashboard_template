@@ -1,6 +1,7 @@
 import ttkbootstrap as ttkb
 from ttkbootstrap.constants import *
 from user_dropdown import UserDropDown
+from home_page import HomePage
 
 app = ttkb.Window(title="My Application", themename="pulse")
 app.geometry("1700x900")
@@ -34,8 +35,8 @@ def clear_main_frame():
 
 # Page functions
 def home_page():
-    demo_label = ttkb.Label(main, text="HOME", bootstyle="inverse-secondary")
-    demo_label.place(x=350, y=250, width=300, height=300)
+    homepage = HomePage(main)
+    homepage.pack(fill=BOTH, expand=True)
 
 def tables_page():
     demo_label = ttkb.Label(main, text="TABLES", bootstyle="inverse-secondary")
@@ -70,6 +71,7 @@ def toggle_menu():
             label.place(x=1, y=i * 100, width=5, height=100)
         menu.place(y=70, width=0, height=830)
         toggle_button.configure(text="☰")
+        main.place(x=50, y=70, width=1650, height=830)
     else:
         for i, (button, label) in enumerate(menu_buttons):
             button.place_forget()
@@ -78,6 +80,7 @@ def toggle_menu():
             label.place(x=1, y=i * 100, width=5, height=100)
         menu.place(y=70, width=250, height=830)
         toggle_button.configure(text="X")
+        main.place(x=250, y=70, width=1450, height=830)
     menu_expanded = not menu_expanded
 
 # Top bar elements
@@ -109,7 +112,7 @@ def toggle_user_dropdown(event=None):
     user_dropdown.toggle()
 
 userDropDown = ttkb.Label(bar, text="User", bootstyle="inverse-primary")
-userDropDown.place(x=1550, width=100, height=50)
+userDropDown.place(x=1400, width=100, height=50)
 userDropDown.bind("<Button-1>", toggle_user_dropdown)
 
 toggle_button = ttkb.Button(bar, text="☰", bootstyle="primary", command=toggle_menu)
