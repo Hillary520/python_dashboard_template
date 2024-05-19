@@ -97,8 +97,22 @@ def toggle_menu():
 logo = ttkb.Label(bar, text="Logo", bootstyle="inverse-primary")
 logo.place(width=250, height=50)
 
-searchbox = ttkb.Label(bar, text="searchbox", bootstyle="inverse-primary")
-searchbox.place(x=900, width=250, height=50)
+searchbox = ttkb.Entry(bar, bootstyle="primary", font="Helvetica 18")
+searchbox.insert(0, "Type to Search")
+searchbox.place(x=600, y=10, width=470)
+
+def on_click(event):
+    if searchbox.get() == "Type to Search":
+        searchbox.delete(0, "end")
+        searchbox.configure(foreground="black")
+
+def on_leave(event):
+    if not searchbox.get():
+        searchbox.insert(0, "Type to Search")
+        searchbox.configure(foreground="gray")
+
+searchbox.bind("<FocusIn>", on_click)
+searchbox.bind("<FocusOut>", on_leave)
 
 userDropDown = ttkb.Label(bar, text="userDropDown", bootstyle="inverse-primary")
 userDropDown.place(x=1550, width=250, height=50)
