@@ -18,7 +18,7 @@ This project is a Python-based dashboard template using the `ttkbootstrap` libra
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/python_dashboard_template.git
+    git clone https://github.com/Hillary520/python_dashboard_template.git
     cd python_dashboard_template
     ```
 
